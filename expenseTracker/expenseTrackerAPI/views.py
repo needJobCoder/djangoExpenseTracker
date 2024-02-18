@@ -38,7 +38,7 @@ def getPurchases(request):
         
         purchase_obj.append(obj)
         
-
+    
     return Response(purchase_obj)
     
 
