@@ -4,7 +4,7 @@ from .serializer import UserSerialzier, PurchaseSerialzier
 from .models import Users, Purchases
 from rest_framework.response import Response
 import datetime
-
+import json
 @api_view(['POST'])
 def createUser(request):
     user_data = UserSerialzier(data=request.data)
@@ -28,6 +28,18 @@ def getPurchases(request):
         return Response({"dataFetched": "false", "reason":"KeyError"})
     
     purchases = Purchases.objects.filter(user_id=username)
+    purchase_obj = []
+    
+    for purchase in purchases:
+        obj = {
+        "purhcase_amount": purchase.purchase,
+        "date": f"{purchase.purchase_date}",
+        }
+        
+        purchase_obj.append(obj)
+        
+
+    return Response(purchase_obj)
     
 
 @api_view(['POST'])
